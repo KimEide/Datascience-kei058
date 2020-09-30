@@ -72,14 +72,14 @@ dframe <- dframe %>% mutate(variable = dplyr::recode(variable,
 dframe <- dframe %>% mutate(region = dplyr::recode(region,
                                                    "Heile landet"="Whole country",
                                                    "Møre og Romsdal"="More og Romsdal",
-                                                   "Troms og Finnmark - Romsa ja Finnmárku"="TromsOgFinnmark",
+                                                   "Troms og Finnmark - Romsa ja Finnmárku"="Troms og Finnmark",
                                                    "Trøndelag - Trööndelage"="Trondelag"))
 
 
 
 mosaic::tally(~region, data = dframe)
+
+# Plotting the data for each month in region and the value of the roomcap
 dframe %>% filter(variable == "roomcap") %>%  
   ggplot(aes(x=month, y=value, group=region))  + 
   geom_line(aes(color=region))
-
-# we now have the data in long format ready for data wrangling
