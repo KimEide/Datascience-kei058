@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup ,include=FALSE}
 library(knitr)
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(reticulate)
 ```
 
@@ -18,6 +18,7 @@ from bs4 import BeautifulSoup
 import calendar
 import matplotlib.pyplot as plt
 import datetime
+import time
 
 def find_days_in_month(year, month):
     return calendar.monthrange(year, month)[1]
@@ -28,12 +29,12 @@ def retrive_count(year, month, county_list):
     soup = BeautifulSoup(r.content, 'html.parser')
     count = 0
     city = 'a'
-    count_list = []
+    count_list = list(range(len(county_list)))
     for tr in soup.findAll('tr'):
         if tr.find('strong'):
             if city in county_list:
                 # print(count, city)
-                count_list.append(count)
+                count_list[county_list.index(city)] = count
             city = tr.find('strong').text.strip()
             count = 0
         if tr.find('a', href=True):
@@ -51,8 +52,9 @@ def retrive_count(year, month, county_list):
     return count_list
 ```
 
+
 ```{python}
-counties = ['Oslo', 'Rogaland', 'Møre og Romsdal', 'Nordland', 'Viken', 'Innlandet', 'Vestfold og Telemark', 'Agder', 'Vestland', 'Trøndelag', 'Troms og Finnmark', 'Utenlands']
+counties = ['Oslo', 'Rogaland', 'Møre og Romsdal', 'Nordland', 'Viken', 'Innlandet', 'Vestfold og Telemark', 'Agder', 'Vestland', 'Trøndelag', 'Troms og Finnmark', 'Utenlands', 'Svalbard']
 month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 countlist = []
 count = list(range(len(counties)))
@@ -84,10 +86,11 @@ for county in counties:
     plt.figure(counties.index(county))
     plt.ylim(0, max_count + 100)
     plt.xticks(list(range(1,13)), month_name)
-    plt.title(county)
     plt.legend(loc="upper left")
+    plt.title(county)
     plt.show()
     plt.close()
 ```
+
 
 
