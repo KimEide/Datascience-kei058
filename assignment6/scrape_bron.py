@@ -65,13 +65,14 @@ def find_number():
             countlist.append(count)
         for county in counties:
             plt.figure(counties.index(county))
-            plt.plot(monthlist, countlist[counties.index(county)], label=str(year))
+            plt.plot(monthlist, countlist[counties.index(county)], label=year)
     
 
     for county in counties:
         plt.figure(counties.index(county))
         plt.ylim(0, max_count + 100)
         plt.xticks(list(range(1,13)), month_name)
+        plt.legend(loc="upper left")
         plt.title(county)
         plt.savefig(county)
         plt.close()
